@@ -3,6 +3,7 @@ browser.runtime.onMessage.addListener((message) => {
   let start = 0;
   let end = 0;
   let sel = window.getSelection();
+  var sel2 = removespaces(sel.toString()); // sel2 = sel without spaces, needed for all 'bin2', 'hex2' and 'oct2' conversions since they don't work with spaces in it
   var enc = sel.toString();
   if (document.activeElement) {
    let tagname = document.activeElement.tagName.toLowerCase();
@@ -15,6 +16,7 @@ browser.runtime.onMessage.addListener((message) => {
    start = document.activeElement.selectionStart;
    end = document.activeElement.selectionEnd;
    sel = text.substring (start, end);
+   sel2 = removespaces(sel.toString()); // see above, sel2 = sel without spaces
    enc = sel.toString();
   }
   switch(message.command) {
@@ -61,16 +63,16 @@ browser.runtime.onMessage.addListener((message) => {
     enc = txt2hex(sel.toString());
     break;
     case "bin2dec":
-    enc = bin2dec(sel.toString());
+    enc = bin2dec(sel2.toString());
     break;
     case "bin2hex":
-    enc = bin2hex(sel.toString());
+    enc = bin2hex(sel2.toString());
     break;
     case "bin2oct":
-    enc = bin2oct(sel.toString());
+    enc = bin2oct(sel2.toString());
     break;
     case "bin2txt":
-    enc = bin2txt(sel.toString());
+    enc = bin2txt(sel2.toString());
     break;
     case "dec2bin":
     enc = dec2bin(sel.toString());
@@ -82,28 +84,32 @@ browser.runtime.onMessage.addListener((message) => {
     enc = dec2oct(sel.toString());
     break;
     case "hex2bin":
-    enc = hex2bin(sel.toString());
+    enc = hex2bin(sel2.toString());
     break;
     case "hex2dec":
-    enc = hex2dec(sel.toString());
+    enc = hex2dec(sel2.toString());
     break;
     case "hex2oct":
-    enc = hex2oct(sel.toString());
+    enc = hex2oct(sel2.toString());
     break;
     case "hex2txt":
-    enc = hex2txt(sel.toString());
+    enc = hex2txt(sel2.toString());
     break;
     case "oct2bin":
     enc = oct2bin(sel.toString());
     break;
     case "oct2dec":
-    enc = oct2dec(sel.toString());
+    enc = oct2dec(sel2.toString());
     break;
     case "hex2oct":
-    enc = oct2hex(sel.toString());
+    enc = oct2hex(sel2.toString());
     break;
   }
-  if (textarea) {
+  
+  if (enc === sel || enc === sel2) { // just in case something can't be converted for example large binaries to decimal (if int limit exceeds) so the textbox/website content will not changed
+	  ;
+  }
+  else if (textarea) {
     var prev = document.activeElement.value.substring(0, start);
     var next = document.activeElement.value.substring(end);
     var text = prev + enc + next;
