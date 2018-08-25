@@ -40,7 +40,8 @@ function entityDecode(plaintext) {
 }
 
 function removespaces(plaintext) {
-  return plaintext.split(' ').join('');
+  //return plaintext.split(' ').join('');
+  return plaintext.replace(/\s/g,'');
 }
 
 function reverse(plaintext) {
@@ -112,6 +113,7 @@ function txt2hex(plaintext) {
 }
 
 function bin2dec(plaintext) {
+  plaintext = removespaces(plaintext);
   var num = parseInt(plaintext, 2);
   if (!isNaN(num) && num < Number.MAX_SAFE_INTEGER) {
     return num;
@@ -120,6 +122,7 @@ function bin2dec(plaintext) {
 }
 
 function bin2hex(plaintext) {
+  plaintext = removespaces(plaintext);
   while(plaintext.length % 4 != 0) {
     plaintext = "0" + plaintext;
   }
@@ -131,10 +134,12 @@ function bin2hex(plaintext) {
 }
 
 function bin2txt(plaintext) {
+  plaintext = removespaces(plaintext);  
   return hex2txt(bin2hex(plaintext));
 }
 
 function bin2oct(plaintext) {
+  plaintext = removespaces(plaintext);
   return dec2oct(bin2dec(plaintext));
 }
 
@@ -163,6 +168,7 @@ function dec2oct(plaintext) {
 }
 
 function hex2bin(plaintext) {
+  plaintext = removespaces(plaintext);
   var binStr = "";
   for (i = 0; i < plaintext.length; i ++) {
     var bin = parseInt(plaintext.substr(i, 1), 16).toString(2);
@@ -175,6 +181,7 @@ function hex2bin(plaintext) {
 }
 
 function hex2dec(plaintext) {
+  plaintext = removespaces(plaintext);
   var num = parseInt(plaintext, 16);
   if (!isNaN(num) && num < Number.MAX_SAFE_INTEGER) {
     return num;
@@ -183,10 +190,12 @@ function hex2dec(plaintext) {
 }
 
 function hex2oct(plaintext) {
+  plaintext = removespaces(plaintext);
   return dec2oct(hex2dec(plaintext));
 }
 
 function hex2txt(plaintext) {
+  plaintext = removespaces(plaintext);
   var asciiStr = "";
   for (i = 0; i < plaintext.length; i += 2) {
     asciiStr += String.fromCharCode(parseInt(plaintext.substr(i, 2), 16));
@@ -195,10 +204,12 @@ function hex2txt(plaintext) {
 }
 
 function oct2bin(plaintext) {
+  plaintext = removespaces(plaintext);
   return dec2bin(oct2dec(plaintext));
 }
 
 function oct2dec(plaintext) {
+  plaintext = removespaces(plaintext);
   var num = parseInt(plaintext, 8);
   if (!isNaN(num) && num < Number.MAX_SAFE_INTEGER) {
     return num;
@@ -207,5 +218,6 @@ function oct2dec(plaintext) {
 }
 
 function oct2hex(plaintext) {
+  plaintext = removespaces(plaintext);
   return dec2hex(oct2dec(plaintext));
 }
